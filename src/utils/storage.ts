@@ -90,9 +90,7 @@ export interface CompanySettings {
   whatsappNumber: string;
   whatsappMessage: string;
   facebookLink?: string;
-  instagramLink?: string;
-  linkedinLink?: string;
-  youtubeLink?: string;
+  tiktokLink?: string;
 }
 
 export interface TeamMember {
@@ -855,10 +853,8 @@ const DEFAULT_SETTINGS: CompanySettings = {
   beforeAfterAfterLabel: "Completed Structural Handover",
   whatsappNumber: "+92 334 6878500",
   whatsappMessage: "Hello Naheed & Sons, I would like to inquire about your construction and design services.",
-  facebookLink: "https://facebook.com",
-  instagramLink: "https://instagram.com",
-  linkedinLink: "https://linkedin.com",
-  youtubeLink: "https://youtube.com"
+  facebookLink: "https://facebook.com/naheedandsons",
+  tiktokLink: "https://tiktok.com/@naheedandsons"
 };
 
 export function getCompanySettings(): CompanySettings {
@@ -897,9 +893,7 @@ export function getCompanySettings(): CompanySettings {
           whatsappNumber: data.whatsapp_number || DEFAULT_SETTINGS.whatsappNumber,
           whatsappMessage: data.whatsapp_message || DEFAULT_SETTINGS.whatsappMessage,
           facebookLink: data.facebook_link || DEFAULT_SETTINGS.facebookLink,
-          instagramLink: data.instagram_link || DEFAULT_SETTINGS.instagramLink,
-          linkedinLink: data.linkedin_link || DEFAULT_SETTINGS.linkedinLink,
-          youtubeLink: data.youtube_link || DEFAULT_SETTINGS.youtubeLink
+          tiktokLink: data.tiktok_link || DEFAULT_SETTINGS.tiktokLink
         };
         localStorage.setItem(SETTINGS_KEY, JSON.stringify(mapped));
         notifySync(SETTINGS_KEY);
@@ -952,9 +946,7 @@ export function saveCompanySettings(settings: CompanySettings): CompanySettings 
       whatsapp_number: settings.whatsappNumber,
       whatsapp_message: settings.whatsappMessage,
       facebook_link: settings.facebookLink || null,
-      instagram_link: settings.instagramLink || null,
-      linkedin_link: settings.linkedinLink || null,
-      youtube_link: settings.youtubeLink || null
+      tiktok_link: settings.tiktokLink || null
     })
     .then(({ error }: { error: any }) => {
       if (error) console.error("Error saving company settings to Supabase:", error);
