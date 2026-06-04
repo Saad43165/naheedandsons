@@ -123,7 +123,7 @@ const INQUIRIES_KEY = "naheedandsons_inquiries_v1";
 const FAQS_KEY = "naheedandsons_faqs_v1";
 const SERVICES_KEY = "naheedandsons_services_v1";
 const RATES_KEY = "naheedandsons_rates_v1";
-const SETTINGS_KEY = "naheedandsons_settings_v1";
+const SETTINGS_KEY = "naheedandsons_settings_v2";
 const TEAM_KEY = "naheedandsons_team_v1";
 const TESTIMONIALS_KEY = "naheedandsons_testimonials_v1";
 
