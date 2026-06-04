@@ -220,11 +220,7 @@ export default function AdminDashboard() {
     };
 
     verifyAccess();
-
-    window.addEventListener("naheed_storage_synced", loadAllData);
-    return () => {
-      window.removeEventListener("naheed_storage_synced", loadAllData);
-    };
+    // Background sync listener removed to prevent form overwriting
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
