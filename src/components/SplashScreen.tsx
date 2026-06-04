@@ -54,24 +54,25 @@ export default function SplashScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] bg-[#08111F] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[9999] bg-[#08111F] overflow-hidden"
         >
-          {/* Cinematic Architectural Background */}
+          {/* --- BACKGROUND LAYER (Bulletproof CSS Cover) --- */}
           <motion.div 
             initial={{ scale: 1.15 }}
             animate={{ scale: 1 }}
             transition={{ duration: 3.0, ease: "easeOut" }}
-            className="absolute top-0 left-0 w-full h-[100dvh] z-0 pointer-events-none"
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2564&auto=format&fit=crop" 
-              alt="Luxury Skyscraper Architecture"
-              className="w-full h-full object-cover object-center opacity-60 grayscale-[10%]"
-            />
-            {/* Even luxury overlay so the whole image is visible, but text remains readable */}
-            <div className="absolute inset-0 bg-[#08111F]/70 mix-blend-multiply" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#1B3A5C]/50 via-transparent to-[#08111F]" />
-          </motion.div>
+            className="absolute inset-[-5%] z-0"
+            style={{
+              backgroundImage: "url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2564&auto=format&fit=crop')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.5,
+              filter: "grayscale(10%)"
+            }}
+          />
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-[#08111F]/70 mix-blend-multiply z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1B3A5C]/50 via-transparent to-[#08111F] z-0 pointer-events-none" />
 
           {/* Subtle golden ambient glow in center */}
           <motion.div 
@@ -80,11 +81,12 @@ export default function SplashScreen() {
             className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#C8860A]/20 via-transparent to-transparent z-0 pointer-events-none"
           />
 
+          {/* --- CONTENT LAYER (Flexbox safely isolated) --- */}
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative z-10 flex flex-col items-center"
+            className="relative z-10 w-full h-full flex flex-col items-center justify-center"
           >
             {/* The Logo */}
             <div className="w-32 h-32 md:w-40 md:h-40 relative mb-8 flex justify-center items-center">
