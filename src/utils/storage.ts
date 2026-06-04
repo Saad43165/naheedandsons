@@ -130,6 +130,18 @@ const TEAM_KEY = "naheedandsons_team_v1";
 const TESTIMONIALS_KEY = "naheedandsons_testimonials_v1";
 
 // Trigger a window custom event to notify components when background sync completes
+
+// Global fetch throttle to prevent infinite loops and massive network spikes
+const lastFetchTime: Record<string, number> = {};
+function shouldFetch(key: string) {
+  const now = Date.now();
+  if (!lastFetchTime[key] || now - lastFetchTime[key] > 60000) {
+    lastFetchTime[key] = now;
+    return true;
+  }
+  return false;
+}
+
 function notifySync(key: string) {
   if (typeof window !== "undefined") {
     window.dispatchEvent(new CustomEvent("naheed_storage_synced", { detail: { key } }));
@@ -145,15 +157,21 @@ export function getProjects(): Project[] {
   }
   
   // Background fetch & sync
-  supabase
-    .from("projects")
-    .select("*")
-    .then(({ data, error }: { data: any; error: any }) => {
-      if (!error && data) {
-        localStorage.setItem(PROJECTS_KEY, JSON.stringify(data));
-        notifySync(PROJECTS_KEY);
-      }
-    });
+  if (shouldFetch(PROJECTS_KEY)) {
+    supabase
+      .from("projects")
+      .select("*")
+      .then(({ data, error }: { data: any; error: any }) => {
+        if (!error && data) {
+          const currentString = localStorage.getItem(PROJECTS_KEY);
+          const newString = JSON.stringify(data);
+          if (currentString !== newString) {
+            localStorage.setItem(PROJECTS_KEY, newString);
+            notifySync(PROJECTS_KEY);
+          }
+        }
+      });
+  }
 
   const stored = localStorage.getItem(PROJECTS_KEY);
   if (!stored) {
@@ -232,15 +250,21 @@ export function getBlogPosts(): BlogPost[] {
   }
 
   // Background fetch & sync
-  supabase
-    .from("blogs")
-    .select("*")
-    .then(({ data, error }: { data: any; error: any }) => {
-      if (!error && data) {
-        localStorage.setItem(BLOG_KEY, JSON.stringify(data));
-        notifySync(BLOG_KEY);
-      }
-    });
+  if (shouldFetch(BLOG_KEY)) {
+    supabase
+      .from("blogs")
+      .select("*")
+      .then(({ data, error }: { data: any; error: any }) => {
+        if (!error && data) {
+          const currentString = localStorage.getItem(BLOG_KEY);
+          const newString = JSON.stringify(data);
+          if (currentString !== newString) {
+            localStorage.setItem(BLOG_KEY, newString);
+            notifySync(BLOG_KEY);
+          }
+        }
+      });
+  }
 
   const stored = localStorage.getItem(BLOG_KEY);
   if (!stored) {
@@ -465,15 +489,21 @@ export function getFAQs(): FAQ[] {
   if (typeof window === "undefined") return INITIAL_FAQS;
 
   // Background fetch & sync
-  supabase
-    .from("faqs")
-    .select("*")
-    .then(({ data, error }: { data: any; error: any }) => {
-      if (!error && data) {
-        localStorage.setItem(FAQS_KEY, JSON.stringify(data));
-        notifySync(FAQS_KEY);
-      }
-    });
+  if (shouldFetch(FAQS_KEY)) {
+    supabase
+      .from("faqs")
+      .select("*")
+      .then(({ data, error }: { data: any; error: any }) => {
+        if (!error && data) {
+          const currentString = localStorage.getItem(FAQS_KEY);
+          const newString = JSON.stringify(data);
+          if (currentString !== newString) {
+            localStorage.setItem(FAQS_KEY, newString);
+            notifySync(FAQS_KEY);
+          }
+        }
+      });
+  }
 
   const stored = localStorage.getItem(FAQS_KEY);
   if (!stored) {

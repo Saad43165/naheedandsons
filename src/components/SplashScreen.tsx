@@ -38,6 +38,11 @@ export default function SplashScreen() {
 
     checkReady();
 
+    // Register PWA Service Worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(err => console.log("SW failed", err));
+    }
+
     return () => window.removeEventListener("naheed_storage_synced", handleSync);
   }, []);
 
