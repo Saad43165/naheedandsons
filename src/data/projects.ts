@@ -1,0 +1,138 @@
+export const PROJECTS_DATA = [
+  {
+    id: "luxury-villa",
+    title: "The Oasis Villa",
+    category: "Full Construction",
+    location: "DHA Phase 6, Lahore",
+    year: "2025",
+    duration: "18 Months",
+    area: "8,500 sqft",
+    budget: "PKR 4.5 – 5.5 Crore",
+    status: "Completed",
+    description:
+      "A luxury contemporary residential project emphasizing open-plan architecture, organic materials, and double-height custom glass facades. Built with premium reinforced concrete, marble-tiled floors, custom smart-home features, and an architectural infinity pool layout.",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Residential", "Luxury", "New Build"],
+    team: [
+      { name: "Sarah Jenkins", role: "Principal Architect" },
+      { name: "Marcus Brody", role: "Lead Structural Engineer" },
+    ],
+  },
+  {
+    id: "modern-office",
+    title: "TechHub Headquarters",
+    category: "Interior Design",
+    location: "Gulberg III, Lahore",
+    year: "2024",
+    duration: "8 Months",
+    area: "45,000 sqft",
+    budget: "PKR 8.0 – 9.0 Crore",
+    status: "Completed",
+    description:
+      "A highly collaborative corporate environment utilizing acoustic ceiling panels, customizable dynamic warm lighting layouts, glass partition systems, and biophilic interior spaces to maximize airflow and cognitive comfort.",
+    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Commercial", "Interior Design", "Corporate"],
+    team: [
+      { name: "Elena Rostova", role: "Interior Stylist" },
+      { name: "David Chen", role: "Acoustics Designer" },
+    ],
+  },
+  {
+    id: "urban-loft",
+    title: "Skyline Penthouse",
+    category: "Renovation",
+    location: "Clifton Block 4, Karachi",
+    year: "2025",
+    duration: "6 Months",
+    area: "3,200 sqft",
+    budget: "PKR 1.8 – 2.2 Crore",
+    status: "Completed",
+    description:
+      "A luxury loft renovation restoring exposed historic brick textures, combined with clean steel-mullioned custom glazing panels, walnut joinery, and professional kitchen setups.",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Renovation", "Luxury", "Urban"],
+    team: [{ name: "John Miller", role: "Renovation Manager" }],
+  },
+  {
+    id: "lakeside-manor",
+    title: "Lakeside Manor",
+    category: "Full Construction",
+    location: "Murree Hills, Pakistan",
+    year: "2023",
+    duration: "24 Months",
+    area: "12,000 sqft",
+    budget: "PKR 9.5 – 11.5 Crore",
+    status: "Completed",
+    description:
+      "A grand lakeside manor built with a blend of natural stone, heavy timber framing, and floor-to-ceiling glazing to frame panoramic mountain views. Complete with underground garage, traditional sit-out, and multi-level terrace.",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Residential", "Luxury", "New Build"],
+    team: [
+      { name: "Sarah Jenkins", role: "Principal Architect" },
+      { name: "John Miller", role: "Project Manager" },
+    ],
+  },
+  {
+    id: "chic-kitchen",
+    title: "Marble Kitchen Redesign",
+    category: "Interior Design",
+    location: "F-7 Markaz, Islamabad",
+    year: "2024",
+    duration: "3 Months",
+    area: "800 sqft",
+    budget: "PKR 35 – 50 Lakh",
+    status: "Completed",
+    description:
+      "A high-end kitchen and open dining area redesign using Calacatta marble surfaces, custom made island unit, integrated appliances, and bespoke cabinetry with modern hardware.",
+    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Interior Design", "Kitchen", "Luxury"],
+    team: [{ name: "Elena Rostova", role: "Interior Designer" }],
+  },
+  {
+    id: "library-restoration",
+    title: "Grand Library Restoration",
+    category: "Renovation",
+    location: "Cantt, Rawalpindi",
+    year: "2024",
+    duration: "12 Months",
+    area: "22,000 sqft",
+    budget: "PKR 4.0 – 5.0 Crore",
+    status: "Completed",
+    description:
+      "Restoration of a historic public library. Structural reinforcement, roof replacement, conservation of ornate plasterwork, and modernization of electrical systems while preserving the colonial character.",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1600&auto=format&fit=crop",
+    gallery: [
+      "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop",
+    ],
+    tags: ["Renovation", "Heritage", "Public"],
+    team: [
+      { name: "Marcus Brody", role: "Structural Engineer" },
+      { name: "John Miller", role: "Project Manager" },
+    ],
+  },
+];
+
+export type Project = typeof PROJECTS_DATA[0];
