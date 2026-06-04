@@ -132,6 +132,12 @@ const TESTIMONIALS_KEY = "naheedandsons_testimonials_v1";
 // Global fetch throttle to prevent infinite loops and massive network spikes
 const lastFetchTime: Record<string, number> = {};
 function shouldFetch(key: string) {
+  // Admin Shield: The admin panel is the master source of truth. It pushes to the server, but never pulls.
+  // This prevents the database from accidentally wiping the admin's active local session.
+  if (typeof window !== "undefined" && window.location.pathname.includes("/admin")) {
+    return false;
+  }
+
   const now = Date.now();
   if (!lastFetchTime[key] || now - lastFetchTime[key] > 60000) {
     lastFetchTime[key] = now;
