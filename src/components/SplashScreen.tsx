@@ -64,14 +64,13 @@ export default function SplashScreen() {
             className="absolute inset-0 z-0 pointer-events-none"
           >
             <img 
-              src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2564&auto=format&fit=crop" 
-              alt="Luxury Architecture"
-              className="w-full h-full object-cover opacity-40 grayscale-[20%]"
+              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2564&auto=format&fit=crop" 
+              alt="Luxury Construction Site"
+              className="w-full h-full object-cover opacity-50 grayscale-[10%]"
             />
-            {/* Multi-layered luxury gradient overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#08111F] via-[#08111F]/80 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#08111F] via-transparent to-transparent" />
-            <div className="absolute inset-0 bg-[#1B3A5C]/20 mix-blend-overlay" />
+            {/* Even luxury overlay so the whole image is visible, but text remains readable */}
+            <div className="absolute inset-0 bg-[#08111F]/70 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#1B3A5C]/40 via-transparent to-[#08111F]/90" />
           </motion.div>
 
           {/* Subtle golden ambient glow in center */}
