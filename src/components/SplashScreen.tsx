@@ -56,11 +56,29 @@ export default function SplashScreen() {
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999] bg-[#08111F] flex flex-col items-center justify-center overflow-hidden"
         >
-          {/* Background subtle pulse */}
+          {/* Cinematic Architectural Background */}
           <motion.div 
-            animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+            initial={{ scale: 1.15 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 3.5, ease: "easeOut" }}
+            className="absolute inset-0 z-0 pointer-events-none"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2564&auto=format&fit=crop" 
+              alt="Luxury Architecture"
+              className="w-full h-full object-cover opacity-40 grayscale-[20%]"
+            />
+            {/* Multi-layered luxury gradient overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#08111F] via-[#08111F]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#08111F] via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-[#1B3A5C]/20 mix-blend-overlay" />
+          </motion.div>
+
+          {/* Subtle golden ambient glow in center */}
+          <motion.div 
+            animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.3, 0.1] }}
             transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1B3A5C]/20 via-[#08111F] to-[#08111F]"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#C8860A]/20 via-transparent to-transparent z-0 pointer-events-none"
           />
 
           <motion.div

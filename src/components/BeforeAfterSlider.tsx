@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { MoveHorizontal } from "lucide-react";
-
+import { GripVertical } from "lucide-react";
+import { motion, useInView } from "framer-motion";
 import { getCompanySettings, CompanySettings } from "@/utils/storage";
 
 interface BeforeAfterProps {
@@ -23,10 +23,14 @@ export default function BeforeAfterSlider({
   subtitle = "Interactive Transformation View"
 }: BeforeAfterProps) {
   const [settings, setSettings] = useState<CompanySettings | null>(null);
-  const [sliderPosition, setSliderPosition] = useState(50); // percentage
+  const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [containerWidth, setContainerWidth] = useState(800);
+  
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   useEffect(() => {
     const load = () => setSettings(getCompanySettings());
@@ -45,10 +49,8 @@ export default function BeforeAfterSlider({
   useEffect(() => {
     if (!containerRef.current) return;
     
-    // Initial size
     setContainerWidth(containerRef.current.offsetWidth);
 
-    // Resize observer to update width dynamically
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
         setContainerWidth(entry.contentRect.width);
@@ -64,8 +66,11 @@ export default function BeforeAfterSlider({
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
     let position = (x / rect.width) * 100;
+    
+    // Hard boundaries to prevent the slider from breaking out
     if (position < 0) position = 0;
     if (position > 100) position = 100;
+    
     setSliderPosition(position);
   };
 
@@ -87,10 +92,9 @@ export default function BeforeAfterSlider({
     if (isDragging) {
       window.addEventListener("mousemove", handleMouseMove);
       window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("touchmove", handleTouchMove, { passive: true });
+      window.addEventListener("touchmove", handleTouchMove, { passive: false });
       window.addEventListener("touchend", handleMouseUp);
     }
-
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -99,42 +103,60 @@ export default function BeforeAfterSlider({
     };
   }, [isDragging]);
 
+  const startDragging = () => {
+    setIsDragging(true);
+    setHasInteracted(true);
+  };
+
   return (
-    <section className="py-20 bg-[#F5F8FA] border-y border-gray-200/50 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
+    <section ref={sectionRef} className="py-24 bg-[#08111F] border-y border-[#C8860A]/20 overflow-hidden relative">
+      {/* Background Ambience */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#C8860A] rounded-full blur-[120px] opacity-5 pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         
-        {/* Header Block */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="block w-6 h-[2px] bg-[#C8860A]" />
-            <span className="text-[#C8860A] text-xs font-bold uppercase tracking-[0.25em]">{tSub}</span>
-            <span className="block w-6 h-[2px] bg-[#C8860A]" />
+        {/* Animated Header Block */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <span className="block w-8 h-[2px] bg-gradient-to-r from-transparent to-[#C8860A]" />
+            <span className="text-[#C8860A] text-xs font-bold uppercase tracking-[0.3em] drop-shadow-md">{tSub}</span>
+            <span className="block w-8 h-[2px] bg-gradient-to-l from-transparent to-[#C8860A]" />
           </div>
-          <h2 className="font-display font-bold text-3xl md:text-4xl text-[#1B3A5C]">{tTitle}</h2>
-          <p className="text-gray-500 text-sm md:text-base mt-3 max-w-xl mx-auto">
-            Use the slider below to drag and compare the raw construction engineering phase with our premium finalized design.
+          <h2 className="font-display font-bold text-4xl md:text-5xl text-white mb-4 tracking-tight">
+            {tTitle}
+          </h2>
+          <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+            Drag the slider to experience our signature transformation from raw structural engineering to premium finished design.
           </p>
-        </div>
+        </motion.div>
 
         {/* Interactive Container */}
-        <div
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           ref={containerRef}
-          className="relative aspect-[16/9] w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-gray-200 select-none cursor-ew-resize"
-          onMouseDown={() => setIsDragging(true)}
-          onTouchStart={() => setIsDragging(true)}
+          className="relative aspect-[4/3] sm:aspect-[16/9] w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(200,134,10,0.15)] border border-[#C8860A]/30 select-none cursor-ew-resize group touch-none"
+          onMouseDown={startDragging}
+          onTouchStart={startDragging}
         >
           {/* AFTER Image (Bottom layer) */}
           <div className="absolute inset-0 w-full h-full">
             <img
               src={aImg}
               alt="After comparison"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-[2s]"
               draggable="false"
             />
             {/* Label After */}
-            <span className="absolute bottom-4 right-4 bg-[#1B3A5C]/90 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-lg border border-white/10 shadow-lg">
+            <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 bg-[#08111F]/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-[#C8860A]/30 shadow-2xl">
               {aLbl}
-            </span>
+            </div>
           </div>
 
           {/* BEFORE Image (Top layer - clipped width) */}
@@ -142,33 +164,40 @@ export default function BeforeAfterSlider({
             className="absolute inset-y-0 left-0 overflow-hidden"
             style={{ width: `${sliderPosition}%` }}
           >
-            {/* We force the image inside to keep a constant width equal to the parent container */}
+            {/* Kept at container width so the image doesn't squash */}
             <div className="absolute inset-y-0 left-0 h-full" style={{ width: `${containerWidth}px` }}>
               <img
                 src={bImg}
                 alt="Before comparison"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-[2s]"
                 draggable="false"
               />
               {/* Label Before */}
-              <span className="absolute bottom-4 left-4 bg-black/85 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-lg border border-white/10 shadow-lg whitespace-nowrap">
+              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 bg-[#08111F]/80 backdrop-blur-md text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-[#C8860A]/30 shadow-2xl whitespace-nowrap">
                 {bLbl}
-              </span>
+              </div>
             </div>
           </div>
 
           {/* Slider line separator */}
           <div
-            className="absolute inset-y-0 w-1 bg-gradient-to-b from-[#C8860A] via-white to-[#C8860A] shadow-xl flex items-center justify-center pointer-events-none"
-            style={{ left: `${sliderPosition}%` }}
+            className="absolute inset-y-0 flex items-center justify-center pointer-events-none z-20"
+            style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
           >
+            {/* Glowing vertical line */}
+            <div className="absolute inset-y-0 w-0.5 bg-gradient-to-b from-transparent via-[#C8860A] to-transparent shadow-[0_0_10px_#C8860A]" />
+            <div className="absolute inset-y-0 w-[1px] bg-white opacity-50" />
+            
             {/* Sliding handle button */}
-            <div className="w-12 h-12 rounded-full bg-[#1B3A5C] text-white border-2 border-[#C8860A] flex items-center justify-center shadow-2xl -translate-x-1/2 scale-90 sm:scale-100 hover:scale-105 active:scale-95 transition-transform duration-150">
-              <MoveHorizontal className="w-5 h-5 text-[#C8860A]" />
-            </div>
+            <motion.div 
+              animate={!hasInteracted ? { scale: [1, 1.1, 1], boxShadow: ["0 0 0 rgba(200,134,10,0)", "0 0 20px rgba(200,134,10,0.6)", "0 0 0 rgba(200,134,10,0)"] } : { scale: 1 }}
+              transition={{ duration: 2, repeat: hasInteracted ? 0 : Infinity }}
+              className={`relative w-10 h-14 sm:w-12 sm:h-16 rounded-xl bg-[#08111F] text-white border-2 border-[#C8860A] flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.8)] backdrop-blur-sm transition-transform duration-200 ${isDragging ? "scale-95 bg-[#1B3A5C]" : "hover:scale-105"}`}
+            >
+              <GripVertical className="w-5 h-5 sm:w-6 sm:h-6 text-[#C8860A]" />
+            </motion.div>
           </div>
-        </div>
-        
+        </motion.div>
       </div>
     </section>
   );
