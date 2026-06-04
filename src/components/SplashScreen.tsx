@@ -9,8 +9,8 @@ export default function SplashScreen() {
 
   useEffect(() => {
     // We want the splash screen to show until the data syncs,
-    // but at minimum for 2.5 seconds so the user can appreciate the animation.
-    const minimumTime = new Promise((resolve) => setTimeout(resolve, 2500));
+    // perfectly synced with the 3-second background animation.
+    const minimumTime = new Promise((resolve) => setTimeout(resolve, 3000));
     
     // We also wait for the storage to emit its first sync (or just load from localStorage)
     let isSynced = false;
@@ -20,7 +20,7 @@ export default function SplashScreen() {
     const checkReady = async () => {
       await minimumTime;
       
-      // If after 2.5 seconds it still hasn't synced, wait up to 2 more seconds max
+      // If after 3 seconds it still hasn't synced, wait up to 2 more seconds max
       let attempts = 0;
       while (!isSynced && attempts < 10) {
         await new Promise(r => setTimeout(r, 200));
@@ -60,17 +60,17 @@ export default function SplashScreen() {
           <motion.div 
             initial={{ scale: 1.15 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 3.5, ease: "easeOut" }}
-            className="absolute inset-0 z-0 pointer-events-none"
+            transition={{ duration: 3.0, ease: "easeOut" }}
+            className="absolute top-0 left-0 w-full h-[100dvh] z-0 pointer-events-none"
           >
             <img 
-              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2564&auto=format&fit=crop" 
-              alt="Luxury Construction Site"
-              className="w-full h-full object-cover opacity-50 grayscale-[10%]"
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2564&auto=format&fit=crop" 
+              alt="Luxury Skyscraper Architecture"
+              className="w-full h-full object-cover object-center opacity-60 grayscale-[10%]"
             />
             {/* Even luxury overlay so the whole image is visible, but text remains readable */}
             <div className="absolute inset-0 bg-[#08111F]/70 mix-blend-multiply" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#1B3A5C]/40 via-transparent to-[#08111F]/90" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#1B3A5C]/50 via-transparent to-[#08111F]" />
           </motion.div>
 
           {/* Subtle golden ambient glow in center */}
