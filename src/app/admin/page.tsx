@@ -11,14 +11,15 @@ import {
   getServices, saveService, deleteService, Service,
   getRateSettings, saveRateSettings, RateSettings,
   getCompanySettings, saveCompanySettings, CompanySettings,
-  getTeamMembers, saveTeamMember, deleteTeamMember, TeamMember
+  getTeamMembers, saveTeamMember, deleteTeamMember, TeamMember,
+  getTestimonials, saveTestimonial, deleteTestimonial, Testimonial
 } from "@/utils/storage";
 import { BlogPost } from "@/data/blog";
 import { 
   Plus, Trash2, Edit, Check, Lock, LogOut, Eye, FolderGit2, 
   FileText, Image as ImageIcon, Sparkles, UploadCloud, Film,
   MessageSquare, HelpCircle, LayoutGrid, User, Phone, Mail, Calendar, Info,
-  Calculator, Percent, Settings, Users
+  Calculator, Percent, Settings, Users, Star
 } from "lucide-react";
 import MediaUploader from "@/components/MediaUploader";
 
@@ -27,7 +28,7 @@ export default function AdminDashboard() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const [activeTab, setActiveTab] = useState<"projects" | "blog" | "inquiries" | "faqs" | "services" | "rates" | "settings" | "team">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "blog" | "inquiries" | "faqs" | "services" | "rates" | "settings" | "team" | "testimonials">("projects");
   
   // Custom Toast System
   const [toasts, setToasts] = useState<{ id: number; message: string; type: "success" | "error" | "info" }[]>([]);
@@ -50,6 +51,7 @@ export default function AdminDashboard() {
   const [rates, setRates] = useState<RateSettings | null>(null);
   const [settings, setSettings] = useState<CompanySettings | null>(null);
   const [team, setTeam] = useState<TeamMember[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   // Form states
   const [ratesForm, setRatesForm] = useState<RateSettings>({
@@ -99,6 +101,19 @@ export default function AdminDashboard() {
     linkedin: "",
     email: "",
     phone: ""
+  });
+
+  const [isEditingTestimonial, setIsEditingTestimonial] = useState(false);
+  const [testimonialForm, setTestimonialForm] = useState<Partial<Testimonial>>({
+    id: "",
+    name: "",
+    role: "",
+    company: "",
+    rating: 5,
+    text: "",
+    image: "",
+    project: "",
+    sortOrder: 0
   });
 
   // Editing Project State
@@ -177,6 +192,7 @@ export default function AdminDashboard() {
       setSettings(companyData);
       setSettingsForm(companyData);
       setTeam(getTeamMembers());
+      setTestimonials(getTestimonials());
     };
 
     const verifyAccess = async () => {
@@ -234,6 +250,7 @@ export default function AdminDashboard() {
         setSettings(companyData);
         setSettingsForm(companyData);
         setTeam(getTeamMembers());
+        setTestimonials(getTestimonials());
         setLoginError("");
       } else {
         setLoginError(data.error || "Invalid administrator passcode. Please try again.");
@@ -309,6 +326,49 @@ export default function AdminDashboard() {
       const updated = deleteTeamMember(id);
       setTeam(updated);
       showToast("Team member deleted successfully!");
+    }
+  };
+
+  // TESTIMONIALS CRUD ACTIONS
+  const startNewTestimonial = () => {
+    setTestimonialForm({
+      id: "test-" + Date.now(),
+      name: "",
+      role: "",
+      company: "",
+      rating: 5,
+      text: "",
+      image: "",
+      project: "",
+      sortOrder: (testimonials.length + 1)
+    });
+    setIsEditingTestimonial(true);
+  };
+
+  const startEditTestimonial = (t: Testimonial) => {
+    setTestimonialForm({ ...t, image: t.image || "" });
+    setIsEditingTestimonial(true);
+  };
+
+  const handleSaveTestimonial = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!testimonialForm.name || !testimonialForm.text) {
+      showToast("Name and Text are required.", "error");
+      return;
+    }
+    const updated = saveTestimonial(testimonialForm as Testimonial);
+    setTestimonials(updated);
+    showToast(`Testimonial from "${testimonialForm.name}" saved successfully!`);
+    if (shouldCloseAfterSave) {
+      setIsEditingTestimonial(false);
+    }
+  };
+
+  const handleDeleteTestimonial = (id: string) => {
+    if (confirm("Are you sure you want to delete this testimonial?")) {
+      const updated = deleteTestimonial(id);
+      setTestimonials(updated);
+      showToast("Testimonial deleted successfully!");
     }
   };
 
@@ -710,7 +770,7 @@ export default function AdminDashboard() {
               Company Settings
             </button>
             <button
-              onClick={() => { setActiveTab("team"); setIsEditingProject(false); setIsEditingBlog(false); setIsEditingFAQ(false); setIsEditingService(false); setIsEditingTeam(false); }}
+              onClick={() => { setActiveTab("team"); setIsEditingProject(false); setIsEditingBlog(false); setIsEditingFAQ(false); setIsEditingService(false); setIsEditingTeam(false); setIsEditingTestimonial(false); }}
               className={`flex items-center gap-2 pb-4 font-bold text-xs sm:text-sm tracking-wider uppercase border-b-2 transition-all ${
                 activeTab === "team"
                   ? "border-[#C8860A] text-[#1B3A5C]"
@@ -719,6 +779,17 @@ export default function AdminDashboard() {
             >
               <Users className="w-4 h-4" />
               Team Members
+            </button>
+            <button
+              onClick={() => { setActiveTab("testimonials"); setIsEditingProject(false); setIsEditingBlog(false); setIsEditingFAQ(false); setIsEditingService(false); setIsEditingTeam(false); setIsEditingTestimonial(false); }}
+              className={`flex items-center gap-2 pb-4 font-bold text-xs sm:text-sm tracking-wider uppercase border-b-2 transition-all ${
+                activeTab === "testimonials"
+                  ? "border-[#C8860A] text-[#1B3A5C]"
+                  : "border-transparent text-gray-500 hover:text-[#1B3A5C]"
+              }`}
+            >
+              <Star className="w-4 h-4" />
+              Testimonials
             </button>
           </div>
 
@@ -2203,6 +2274,119 @@ export default function AdminDashboard() {
                       >
                         Cancel
                       </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Tab 8: Testimonials */}
+          {activeTab === "testimonials" && (
+            <div>
+              {!isEditingTestimonial ? (
+                <div>
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-[#1B3A5C]">Client Testimonials ({testimonials.length})</h2>
+                    <button
+                      onClick={startNewTestimonial}
+                      className="bg-[#C8860A] hover:bg-[#a66d06] text-white px-5 py-2.5 rounded-lg text-xs font-bold transition-all shadow-md flex items-center gap-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Testimonial
+                    </button>
+                  </div>
+                  
+                  <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse">
+                        <thead>
+                          <tr className="bg-[#1B3A5C] text-white text-xs uppercase tracking-wider">
+                            <th className="py-4 px-6 font-semibold w-24">Image</th>
+                            <th className="py-4 px-6 font-semibold">Client Name</th>
+                            <th className="py-4 px-6 font-semibold">Role / Company</th>
+                            <th className="py-4 px-6 font-semibold text-right">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-sm">
+                          {testimonials.length === 0 ? (
+                            <tr>
+                              <td colSpan={4} className="py-8 text-center text-gray-400">
+                                No testimonials found. Click Add Testimonial above.
+                              </td>
+                            </tr>
+                          ) : (
+                            testimonials.map((t) => (
+                              <tr key={t.id} className="hover:bg-gray-50/50 transition-colors">
+                                <td className="py-4 px-6">
+                                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center">
+                                    {t.image ? (
+                                      <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                      <User className="w-5 h-5 text-gray-400" />
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-4 px-6 font-semibold text-[#1B3A5C]">{t.name}</td>
+                                <td className="py-4 px-6 text-gray-600">
+                                  {t.role} <br/> <span className="text-xs text-[#C8860A] uppercase">{t.company}</span>
+                                </td>
+                                <td className="py-4 px-6 text-right">
+                                  <div className="flex justify-end gap-2">
+                                    <button onClick={() => startEditTestimonial(t)} className="p-1.5 hover:bg-gray-100 rounded text-[#1B3A5C] transition-all"><Edit className="w-4 h-4" /></button>
+                                    <button onClick={() => handleDeleteTestimonial(t.id)} className="p-1.5 hover:bg-gray-100 rounded text-red-600 transition-all"><Trash2 className="w-4 h-4" /></button>
+                                  </div>
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-[#1B3A5C]">{testimonialForm.id ? "Edit Testimonial" : "Add Testimonial"}</h2>
+                  </div>
+                  <form onSubmit={handleSaveTestimonial} className="bg-white rounded-2xl border border-gray-200/80 shadow-md p-8 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Client Name</label>
+                        <input type="text" value={testimonialForm.name || ""} onChange={e => setTestimonialForm({ ...testimonialForm, name: e.target.value })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Role / Title</label>
+                        <input type="text" value={testimonialForm.role || ""} onChange={e => setTestimonialForm({ ...testimonialForm, role: e.target.value })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Company / Client Type</label>
+                        <input type="text" value={testimonialForm.company || ""} onChange={e => setTestimonialForm({ ...testimonialForm, company: e.target.value })} placeholder="e.g. Corporate Client" className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Project Name (Optional)</label>
+                        <input type="text" value={testimonialForm.project || ""} onChange={e => setTestimonialForm({ ...testimonialForm, project: e.target.value })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Rating (1-5)</label>
+                        <input type="number" min="1" max="5" value={testimonialForm.rating || 5} onChange={e => setTestimonialForm({ ...testimonialForm, rating: parseInt(e.target.value) || 5 })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" required />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Display Sort Order</label>
+                        <input type="number" value={testimonialForm.sortOrder ?? 1} onChange={e => setTestimonialForm({ ...testimonialForm, sortOrder: parseInt(e.target.value) || 1 })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm" required />
+                      </div>
+                      <div className="md:col-span-2">
+                        <MediaUploader label="Client Photo (Leave empty for default avatar)" value={testimonialForm.image || ""} onChange={url => setTestimonialForm({ ...testimonialForm, image: url })} accept="image" />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-xs font-semibold text-gray-500 mb-2">Testimonial Quote</label>
+                        <textarea value={testimonialForm.text || ""} onChange={e => setTestimonialForm({ ...testimonialForm, text: e.target.value })} className="w-full bg-gray-50 border border-gray-200 focus:border-[#C8860A] rounded-lg py-2.5 px-4 outline-none text-sm h-32 resize-y" required />
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-4 pt-6 border-t border-gray-100">
+                      <button type="submit" onClick={() => setShouldCloseAfterSave(true)} className="bg-[#C8860A] hover:bg-[#a66d06] text-white px-6 py-3 rounded-lg text-xs font-bold shadow-md flex items-center gap-2"><Check className="w-4 h-4" /> Save & Close</button>
+                      <button type="button" onClick={() => setIsEditingTestimonial(false)} className="border border-gray-200 hover:bg-gray-50 text-gray-600 px-6 py-3 rounded-lg text-xs font-bold">Cancel</button>
                     </div>
                   </form>
                 </div>

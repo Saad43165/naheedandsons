@@ -1,46 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
-
-const TESTIMONIALS = [
-  {
-    name: "Kamran Alvi",
-    role: "CEO, Alvi Group",
-    company: "Corporate Client",
-    rating: 5,
-    text: "Naheed & Sons completely transformed our regional corporate headquarters in Lahore. The team's attention to detail, communication, and sheer quality of engineering execution was unlike anything I have experienced in Pakistan. Truly exceptional work.",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
-    project: "TechHub Headquarters",
-  },
-  {
-    name: "Zainab Malik",
-    role: "Private Villa Owner",
-    company: "Residential Client",
-    rating: 5,
-    text: "From the very first layout consultation to the final key handover in DHA, every single step felt meticulously managed. Our new villa is everything we dreamed of and more. We cannot recommend Naheed & Sons highly enough.",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
-    project: "The Oasis Villa",
-  },
-  {
-    name: "Sikander Bakht",
-    role: "Managing Director, Bakht Properties",
-    company: "Commercial Client",
-    rating: 5,
-    text: "We have worked with many contractors across Karachi and Islamabad over the years. Naheed & Sons stands apart — a combination of cutting-edge structural capability, transparent itemized invoicing, and a relentless commitment to quality.",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop",
-    project: "Skyline Penthouse",
-  },
-];
+import { Quote, Star, ChevronLeft, ChevronRight, User } from "lucide-react";
+import { getTestimonials, Testimonial } from "@/utils/storage";
 
 export default function Testimonials() {
   const [active, setActive] = useState(0);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
-  const prev = () => setActive((p) => (p === 0 ? TESTIMONIALS.length - 1 : p - 1));
-  const next = () => setActive((p) => (p === TESTIMONIALS.length - 1 ? 0 : p + 1));
+  useEffect(() => {
+    setTestimonials(getTestimonials());
+    const handleSync = (e: any) => {
+      if (e.detail?.key === "naheedandsons_testimonials_v1") {
+        setTestimonials(getTestimonials());
+      }
+    };
+    window.addEventListener("naheed_storage_synced", handleSync);
+    return () => window.removeEventListener("naheed_storage_synced", handleSync);
+  }, []);
 
-  const t = TESTIMONIALS[active];
+  const prev = () => setActive((p) => (p === 0 ? testimonials.length - 1 : p - 1));
+  const next = () => setActive((p) => (p === testimonials.length - 1 ? 0 : p + 1));
+
+  if (testimonials.length === 0) return null;
+
+  const t = testimonials[active];
 
   return (
     <section className="py-32 bg-[#F5F8FA] relative overflow-hidden">
@@ -96,11 +81,15 @@ export default function Testimonials() {
                 {/* Left: Author */}
                 <div className="md:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
                   <div className="relative mb-4">
-                    <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#C8860A]/20">
-                      <div
-                        className="w-full h-full bg-cover bg-center"
-                        style={{ backgroundImage: `url('${t.image}')` }}
-                      />
+                    <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#C8860A]/20 bg-gray-100 flex items-center justify-center">
+                      {t.image ? (
+                        <div
+                          className="w-full h-full bg-cover bg-center"
+                          style={{ backgroundImage: `url('${t.image}')` }}
+                        />
+                      ) : (
+                        <User className="w-8 h-8 text-gray-400" />
+                      )}
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#C8860A] rounded-full flex items-center justify-center">
                       <svg className="w-3 h-3 fill-white" viewBox="0 0 24 24">
@@ -138,7 +127,7 @@ export default function Testimonials() {
           <div className="flex items-center justify-between mt-10">
             {/* Dots */}
             <div className="flex gap-2">
-              {TESTIMONIALS.map((_, idx) => (
+              {testimonials.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActive(idx)}

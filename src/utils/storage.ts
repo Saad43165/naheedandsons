@@ -107,6 +107,18 @@ export interface TeamMember {
   phone?: string;
 }
 
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  rating: number;
+  text: string;
+  image?: string;
+  project: string;
+  sortOrder: number;
+}
+
 const PROJECTS_KEY = "naheedandsons_projects_v1";
 const BLOG_KEY = "naheedandsons_blog_v1";
 const INQUIRIES_KEY = "naheedandsons_inquiries_v1";
@@ -115,6 +127,7 @@ const SERVICES_KEY = "naheedandsons_services_v1";
 const RATES_KEY = "naheedandsons_rates_v1";
 const SETTINGS_KEY = "naheedandsons_settings_v1";
 const TEAM_KEY = "naheedandsons_team_v1";
+const TESTIMONIALS_KEY = "naheedandsons_testimonials_v1";
 
 // Trigger a window custom event to notify components when background sync completes
 function notifySync(key: string) {
@@ -1048,6 +1061,132 @@ export function deleteTeamMember(id: string): TeamMember[] {
     .eq("id", id)
     .then(({ error }: { error: any }) => {
       if (error) console.error("Error deleting team member from Supabase:", error);
+    });
+
+  return filtered;
+}
+
+// ----------------------------------------------------
+// 9. TESTIMONIALS
+// ----------------------------------------------------
+
+const INITIAL_TESTIMONIALS: Testimonial[] = [
+  {
+    id: "test-1",
+    name: "Kamran Alvi",
+    role: "CEO, Alvi Group",
+    company: "Corporate Client",
+    rating: 5,
+    text: "Naheed & Sons completely transformed our regional corporate headquarters in Lahore. The team's attention to detail, communication, and sheer quality of engineering execution was unlike anything I have experienced in Pakistan. Truly exceptional work.",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
+    project: "TechHub Headquarters",
+    sortOrder: 1,
+  },
+  {
+    id: "test-2",
+    name: "Zainab Malik",
+    role: "Private Villa Owner",
+    company: "Residential Client",
+    rating: 5,
+    text: "From the very first layout consultation to the final key handover in DHA, every single step felt meticulously managed. Our new villa is everything we dreamed of and more. We cannot recommend Naheed & Sons highly enough.",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop",
+    project: "The Oasis Villa",
+    sortOrder: 2,
+  },
+  {
+    id: "test-3",
+    name: "Sikander Bakht",
+    role: "Managing Director, Bakht Properties",
+    company: "Commercial Client",
+    rating: 5,
+    text: "We have worked with many contractors across Karachi and Islamabad over the years. Naheed & Sons stands apart — a combination of cutting-edge structural capability, transparent itemized invoicing, and a relentless commitment to quality.",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop",
+    project: "Skyline Penthouse",
+    sortOrder: 3,
+  },
+];
+
+export function getTestimonials(): Testimonial[] {
+  if (typeof window === "undefined") return INITIAL_TESTIMONIALS;
+
+  supabase
+    .from("testimonials")
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .then(({ data, error }: { data: any; error: any }) => {
+      if (!error && data) {
+        const mapped = data.map((t: any) => ({
+          id: t.id,
+          name: t.name,
+          role: t.role,
+          company: t.company,
+          rating: t.rating,
+          text: t.text,
+          image: t.image || undefined,
+          project: t.project,
+          sortOrder: t.sort_order,
+        }));
+        localStorage.setItem(TESTIMONIALS_KEY, JSON.stringify(mapped));
+        notifySync(TESTIMONIALS_KEY);
+      }
+    });
+
+  const stored = localStorage.getItem(TESTIMONIALS_KEY);
+  if (!stored) {
+    localStorage.setItem(TESTIMONIALS_KEY, JSON.stringify(INITIAL_TESTIMONIALS));
+    return INITIAL_TESTIMONIALS;
+  }
+  try {
+    return JSON.parse(stored);
+  } catch {
+    return INITIAL_TESTIMONIALS;
+  }
+}
+
+export function saveTestimonial(testimonial: Testimonial): Testimonial[] {
+  if (typeof window === "undefined") return INITIAL_TESTIMONIALS;
+  const current = getTestimonials();
+  const existing = current.findIndex((t) => t.id === testimonial.id);
+  if (existing >= 0) {
+    current[existing] = testimonial;
+  } else {
+    current.push(testimonial);
+  }
+  current.sort((a, b) => a.sortOrder - b.sortOrder);
+  localStorage.setItem(TESTIMONIALS_KEY, JSON.stringify(current));
+
+  supabase
+    .from("testimonials")
+    .upsert({
+      id: testimonial.id,
+      name: testimonial.name,
+      role: testimonial.role,
+      company: testimonial.company,
+      rating: testimonial.rating,
+      text: testimonial.text,
+      image: testimonial.image || null,
+      project: testimonial.project,
+      sort_order: testimonial.sortOrder,
+    })
+    .then(({ error }: { error: any }) => {
+      if (error) console.error("Error saving testimonial to Supabase:", error);
+    });
+
+  return current;
+}
+
+export function deleteTestimonial(id: string): Testimonial[] {
+  if (typeof window === "undefined") return INITIAL_TESTIMONIALS;
+  const current = getTestimonials();
+  const filtered = current.filter((t) => t.id !== id);
+  localStorage.setItem(TESTIMONIALS_KEY, JSON.stringify(filtered));
+
+  supabase
+    .from("testimonials")
+    .delete()
+    .eq("id", id)
+    .then(({ error }: { error: any }) => {
+      if (error) console.error("Error deleting testimonial from Supabase:", error);
     });
 
   return filtered;

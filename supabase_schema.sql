@@ -207,6 +207,29 @@ ON CONFLICT (id) DO NOTHING;
 
 ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
 
+-- 9. TESTIMONIALS TABLE
+CREATE TABLE IF NOT EXISTS public.testimonials (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  company TEXT NOT NULL,
+  rating INTEGER DEFAULT 5,
+  text TEXT NOT NULL,
+  image TEXT,
+  project TEXT NOT NULL,
+  sort_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+INSERT INTO public.testimonials (id, name, role, company, rating, text, image, project, sort_order)
+VALUES 
+  ('test-1', 'Kamran Alvi', 'CEO, Alvi Group', 'Corporate Client', 5, 'Naheed & Sons completely transformed our regional corporate headquarters in Lahore. The team''s attention to detail, communication, and sheer quality of engineering execution was unlike anything I have experienced in Pakistan. Truly exceptional work.', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop', 'TechHub Headquarters', 1),
+  ('test-2', 'Zainab Malik', 'Private Villa Owner', 'Residential Client', 5, 'From the very first layout consultation to the final key handover in DHA, every single step felt meticulously managed. Our new villa is everything we dreamed of and more. We cannot recommend Naheed & Sons highly enough.', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop', 'The Oasis Villa', 2),
+  ('test-3', 'Sikander Bakht', 'Managing Director, Bakht Properties', 'Commercial Client', 5, 'We have worked with many contractors across Karachi and Islamabad over the years. Naheed & Sons stands apart — a combination of cutting-edge structural capability, transparent itemized invoicing, and a relentless commitment to quality.', 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop', 'Skyline Penthouse', 3)
+ON CONFLICT (id) DO NOTHING;
+
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+
 -- Anonymous public read policies
 CREATE POLICY "Allow public read rates" ON public.rates FOR SELECT USING (true);
 CREATE POLICY "Allow public read projects" ON public.projects FOR SELECT USING (true);
@@ -215,6 +238,7 @@ CREATE POLICY "Allow public read services" ON public.services FOR SELECT USING (
 CREATE POLICY "Allow public read faqs" ON public.faqs FOR SELECT USING (true);
 CREATE POLICY "Allow public read settings" ON public.settings FOR SELECT USING (true);
 CREATE POLICY "Allow public read team_members" ON public.team_members FOR SELECT USING (true);
+CREATE POLICY "Allow public read testimonials" ON public.testimonials FOR SELECT USING (true);
 
 -- Anonymous insert inquiry policy (for client submissions)
 CREATE POLICY "Allow public insert inquiries" ON public.inquiries FOR INSERT WITH CHECK (true);
@@ -228,3 +252,4 @@ CREATE POLICY "Allow admin all faqs" ON public.faqs TO authenticated USING (true
 CREATE POLICY "Allow admin all inquiries" ON public.inquiries TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow admin all settings" ON public.settings TO authenticated USING (true) WITH CHECK (true);
 CREATE POLICY "Allow admin all team_members" ON public.team_members TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow admin all testimonials" ON public.testimonials TO authenticated USING (true) WITH CHECK (true);
