@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Home } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 import Logo from "./Logo";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
