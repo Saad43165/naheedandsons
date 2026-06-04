@@ -833,8 +833,8 @@ export function saveRateSettings(settings: RateSettings): RateSettings {
 // ----------------------------------------------------
 const DEFAULT_SETTINGS: CompanySettings = {
   address: "Plot 45-C, Bukhari Commercial, DHA Phase 6, Karachi, Pakistan",
-  phone: "+92 (300) 123-4567",
-  email: "info@naheedandsons.com",
+  phone: "+92 334 6878500 | +92 343 9099082",
+  email: "info@naheedandsons.com.pk",
   hours: "Mon - Sat: 9:00 AM - 6:00 PM",
   yearsExperience: "25+",
   projectsCompleted: "400+",
@@ -853,7 +853,7 @@ const DEFAULT_SETTINGS: CompanySettings = {
   beforeAfterAfterImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
   beforeAfterBeforeLabel: "Concrete Frame Construction",
   beforeAfterAfterLabel: "Completed Structural Handover",
-  whatsappNumber: "+92 (300) 123-4567",
+  whatsappNumber: "+92 334 6878500",
   whatsappMessage: "Hello Naheed & Sons, I would like to inquire about your construction and design services.",
   facebookLink: "https://facebook.com",
   instagramLink: "https://instagram.com",
