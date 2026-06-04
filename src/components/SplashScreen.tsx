@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Logo from "./Logo";
 
 export default function SplashScreen() {
   const [loading, setLoading] = useState(true);
@@ -64,13 +65,12 @@ export default function SplashScreen() {
             className="relative z-10 flex flex-col items-center"
           >
             {/* The Logo */}
-            <div className="w-32 h-32 md:w-40 md:h-40 relative mb-8">
+            <div className="w-32 h-32 md:w-40 md:h-40 relative mb-8 flex justify-center items-center">
               <div className="absolute inset-0 bg-[#C8860A] rounded-full blur-3xl opacity-20 animate-pulse" />
-              <motion.img 
-                layoutId="main-logo"
-                src="/ns-logo.png" 
-                alt="Naheed & Sons Logo" 
-                className="w-full h-full object-contain relative z-10 drop-shadow-2xl"
+              <Logo 
+                layoutId="main-logo" 
+                className="w-24 h-24 md:w-32 md:h-32 rounded-2xl relative z-10 drop-shadow-2xl" 
+                fontSize="4rem"
               />
             </div>
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import Logo from "./Logo";
 
 const NAV_LINKS = [
   { name: "Home", href: "/" },
@@ -58,12 +59,11 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 z-10 flex items-center gap-2">
-            <motion.img
-              layoutId="main-logo"
-              src="/ns-logo.png"
-              alt="Naheed & Sons"
-              className="w-9 h-9 rounded-lg object-contain border border-[#C8860A]/30 shadow-sm bg-white"
+          <Link href="/" className="flex-shrink-0 z-10 flex items-center gap-3">
+            <Logo 
+              layoutId="main-logo" 
+              className="w-10 h-10 rounded-lg"
+              fontSize="1.2rem"
             />
             <span
               className={`font-display text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
@@ -163,12 +163,11 @@ export default function Navbar() {
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                <div className="flex items-center gap-2">
-                  <motion.img
-                    layoutId="main-logo-mobile"
-                    src="/ns-logo.png"
-                    alt="Naheed & Sons"
-                    className="w-8 h-8 rounded-lg object-contain border border-[#C8860A]/30 bg-white"
+                <div className="flex items-center gap-3">
+                  <Logo 
+                    layoutId="main-logo-mobile" 
+                    className="w-8 h-8 rounded-md"
+                    fontSize="1rem"
                   />
                   <span className="font-display text-lg font-bold text-[#1B3A5C]">
                     Naheed & <span className="text-[#C8860A]">Sons</span>

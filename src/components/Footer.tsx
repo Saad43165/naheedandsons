@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Home } from "lucide-react";
+import Logo from "./Logo";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getCompanySettings, CompanySettings } from "@/utils/storage";
@@ -46,11 +47,7 @@ export default function Footer() {
               className="inline-flex items-center gap-2 mb-6 cursor-pointer select-none"
               title="Naheed & Sons"
             >
-              <img
-                src="/ns-logo.png"
-                alt="Naheed & Sons"
-                className="w-9 h-9 rounded-lg object-contain bg-white border border-[#C8860A]/30"
-              />
+              <Logo className="w-10 h-10 rounded-lg" fontSize="1.2rem" />
               <span className="font-display text-2xl font-bold tracking-tight text-white">
                 Naheed & <span className="text-[#C8860A]">Sons</span>
               </span>
