@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Search, SlidersHorizontal, X, Play } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getProjects, Project } from "@/utils/storage";
 
 const CATEGORIES = ["All", "Full Construction", "Interior Design", "Renovation"];
@@ -150,10 +151,15 @@ export default function ProjectsGrid() {
                     <div className="bg-white border border-gray-100 group-hover:border-[#C8860A]/40 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-[0_0_35px_rgba(200,134,10,0.1)] transition-all duration-700 h-full flex flex-col">
                       {/* Image */}
                       <div className="relative overflow-hidden aspect-[4/3] border-b border-gray-100/50">
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.75] group-hover:saturate-150"
-                          style={{ backgroundImage: `url('${project.image}')` }}
-                        />
+                        <div className="absolute inset-0 transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.75] group-hover:saturate-150">
+                          <Image 
+                            src={project.image} 
+                            alt={project.title} 
+                            fill 
+                            className="object-cover" 
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
+                        </div>
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0B1522_150%)] transition-opacity duration-700" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
 

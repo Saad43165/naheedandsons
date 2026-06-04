@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, MapPin, Calendar, ExternalLink, Play } from "lucide-react";
 import { getProjects, Project } from "@/utils/storage";
 
@@ -106,10 +107,15 @@ function ProjectCard({ project, large = false }: { project: Project; large?: boo
         }`}
       >
         {/* Base Image with Slow Cinematic Zoom */}
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.6] group-hover:saturate-150"
-          style={{ backgroundImage: `url('${project.image}')` }}
-        />
+        <div className="absolute inset-0 transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.6] group-hover:saturate-150">
+          <Image 
+            src={project.image} 
+            alt={project.title} 
+            fill 
+            className="object-cover" 
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </div>
         
         {/* Luxury Vignette Overlay */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0B1522_140%)] transition-opacity duration-700" />
