@@ -146,15 +146,16 @@ export default function ProjectsGrid() {
                   exit={{ opacity: 0, y: 12 }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
                 >
-                  <Link href={`/projects/${project.id}`} className="block group h-full">
-                    <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-400 h-full flex flex-col">
+                  <Link href={`/projects/${project.id}`} className="block group h-full cursor-pointer">
+                    <div className="bg-white border border-gray-100 group-hover:border-[#C8860A]/40 rounded-2xl overflow-hidden shadow-sm group-hover:shadow-[0_0_35px_rgba(200,134,10,0.1)] transition-all duration-700 h-full flex flex-col">
                       {/* Image */}
-                      <div className="relative overflow-hidden aspect-[4/3]">
+                      <div className="relative overflow-hidden aspect-[4/3] border-b border-gray-100/50">
                         <div
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 will-change-transform group-hover:scale-[1.05]"
+                          className="absolute inset-0 bg-cover bg-center transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.75] group-hover:saturate-150"
                           style={{ backgroundImage: `url('${project.image}')` }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0B1522_150%)] transition-opacity duration-700" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
 
                         {/* Category badge */}
                         <div className="absolute top-4 left-4 z-10">

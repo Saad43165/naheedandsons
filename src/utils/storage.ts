@@ -860,8 +860,7 @@ const DEFAULT_SETTINGS: CompanySettings = {
 export function getCompanySettings(): CompanySettings {
   if (typeof window === "undefined") return DEFAULT_SETTINGS;
 
-  // Background fetch & sync (Disabled to prevent old server data from overwriting local Admin panel saves)
-  /*
+  // Background fetch & sync
   supabase
     .from("settings")
     .select("*")
@@ -900,7 +899,6 @@ export function getCompanySettings(): CompanySettings {
         notifySync(SETTINGS_KEY);
       }
     });
-  */
 
   const stored = localStorage.getItem(SETTINGS_KEY);
   if (!stored) {

@@ -99,66 +99,73 @@ export default function FeaturedProjects() {
 
 function ProjectCard({ project, large = false }: { project: Project; large?: boolean }) {
   return (
-    <Link href={`/projects/${project.id}`} className="block group h-full">
+    <Link href={`/projects/${project.id}`} className="block group h-full cursor-pointer">
       <div
-        className={`relative w-full overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-500 ${
+        className={`relative w-full overflow-hidden rounded-2xl border border-black/10 group-hover:border-[#C8860A]/40 shadow-xl group-hover:shadow-[0_0_40px_rgba(200,134,10,0.15)] transition-all duration-700 ${
           large ? "h-[480px] md:h-[520px]" : "h-[230px]"
         }`}
       >
-        {/* Image */}
+        {/* Base Image with Slow Cinematic Zoom */}
         <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 will-change-transform group-hover:scale-[1.04]"
+          className="absolute inset-0 bg-cover bg-center transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-[1.08] group-hover:brightness-[0.6] group-hover:saturate-150"
           style={{ backgroundImage: `url('${project.image}')` }}
         />
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/10" />
+        
+        {/* Luxury Vignette Overlay */}
+        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-[radial-gradient(circle_at_center,_transparent_0%,_#0B1522_140%)] transition-opacity duration-700" />
+        
+        {/* Bottom Black Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050B14] via-[#050B14]/40 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Category Tag */}
-        <div className="absolute top-5 left-5 z-10 flex gap-2">
-          <span className="bg-[#C8860A] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-3 rounded-full">
+        {/* Top Badges */}
+        <div className="absolute top-6 left-6 z-10 flex gap-2">
+          <span className="bg-[#C8860A] text-white text-[10px] font-bold uppercase tracking-widest py-1.5 px-3.5 rounded-full shadow-lg">
             {project.category}
           </span>
           {project.video && (
-            <span className="flex items-center gap-1.5 bg-black/60 backdrop-blur-sm text-white text-[9px] font-semibold py-1.5 px-2.5 rounded-full shadow-md border border-white/10">
+            <span className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md text-white text-[9px] font-bold py-1.5 px-3 rounded-full shadow-lg border border-white/10 group-hover:border-[#C8860A]/50 transition-colors">
               <Play className="w-2.5 h-2.5 text-[#C8860A] fill-[#C8860A]" />
               Walkthrough
             </span>
           )}
         </div>
 
-        {/* Hover icon */}
-        <div className="absolute top-5 right-5 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
-          <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-            <ExternalLink className="w-4 h-4 text-white" />
+        {/* Floating Explore Button */}
+        <div className="absolute top-6 right-6 z-10 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+          <div className="w-10 h-10 rounded-full bg-[#1B3A5C]/80 backdrop-blur-md border border-white/10 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:border-[#C8860A] group-hover:bg-[#1B3A5C]">
+            <ExternalLink className="w-4 h-4 text-[#C8860A]" />
           </div>
         </div>
 
-        {/* Content */}
-        <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6">
+        {/* Text Content */}
+        <div className="absolute inset-x-0 bottom-0 z-10 p-6 md:p-8 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
           {large && project.tags && (
-            <div className="flex flex-wrap gap-1.5 mb-3">
+            <div className="flex flex-wrap gap-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-150">
               {project.tags.map((tag) => (
-                <span key={tag} className="text-[9px] font-semibold uppercase tracking-wider text-white/60 border border-white/20 py-0.5 px-2 rounded-full">
+                <span key={tag} className="text-[9px] font-bold uppercase tracking-widest text-white/70 border border-white/10 bg-white/5 backdrop-blur-sm py-1 px-3 rounded-full">
                   {tag}
                 </span>
               ))}
             </div>
           )}
-          <h3 className={`font-display font-bold text-white leading-tight mb-2.5 group-hover:text-[#C8860A] transition-colors duration-300 ${large ? "text-2xl md:text-3xl" : "text-xl"}`}>
+          
+          <h3 className={`font-display font-bold text-white leading-tight mb-3 transition-colors duration-500 ${large ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"}`}>
             {project.title}
           </h3>
+          
           {large && (
-            <p className="text-gray-300 text-sm leading-relaxed mb-4 max-w-sm line-clamp-2">
+            <p className="text-gray-300 text-sm leading-relaxed mb-6 max-w-md line-clamp-2 opacity-80 group-hover:opacity-100 transition-opacity duration-500">
               {project.description}
             </p>
           )}
-          <div className="flex items-center gap-4 text-xs text-gray-400">
-            <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-[#C8860A] shrink-0" />
+          
+          <div className="flex items-center gap-5 text-xs text-gray-400 font-medium">
+            <span className="flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+              <MapPin className="w-4 h-4 text-[#C8860A]" />
               {project.location}
             </span>
-            <span className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-[#C8860A] shrink-0" />
+            <span className="flex items-center gap-2 group-hover:text-white transition-colors duration-300">
+              <Calendar className="w-4 h-4 text-[#C8860A]" />
               {project.year}
             </span>
           </div>

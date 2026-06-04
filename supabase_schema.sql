@@ -136,9 +136,7 @@ CREATE TABLE IF NOT EXISTS public.settings (
   whatsapp_number TEXT NOT NULL DEFAULT '+92 (300) 123-4567',
   whatsapp_message TEXT NOT NULL DEFAULT 'Hello Naheed & Sons, I would like to inquire about your construction and design services.',
   facebook_link TEXT DEFAULT 'https://facebook.com',
-  instagram_link TEXT DEFAULT 'https://instagram.com',
-  linkedin_link TEXT DEFAULT 'https://linkedin.com',
-  youtube_link TEXT DEFAULT 'https://youtube.com',
+  tiktok_link TEXT DEFAULT 'https://tiktok.com',
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
 );
 
@@ -147,7 +145,7 @@ INSERT INTO public.settings (
   id, address, phone, email, hours, years_experience, projects_completed, client_satisfaction, completed_on_time,
   about_story_title, about_story_p1, about_story_p2, about_story_image, about_mission, about_vision, about_direction,
   before_after_title, before_after_subtitle, before_after_before_image, before_after_after_image, before_after_before_label, before_after_after_label,
-  whatsapp_number, whatsapp_message, facebook_link, instagram_link, linkedin_link, youtube_link
+  whatsapp_number, whatsapp_message, facebook_link, tiktok_link
 )
 VALUES (
   'naheedandsons_settings_v1', 
@@ -175,9 +173,7 @@ VALUES (
   '+92 (300) 123-4567',
   'Hello Naheed & Sons, I would like to inquire about your construction and design services.',
   'https://facebook.com',
-  'https://instagram.com',
-  'https://linkedin.com',
-  'https://youtube.com'
+  'https://tiktok.com'
 )
 ON CONFLICT (id) DO NOTHING;
 
