@@ -9,7 +9,6 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // We don't cache anything aggressively right now,
-  // we just need the fetch listener to exist for PWA validation!
-  event.respondWith(fetch(event.request));
+  // Empty fetch listener is enough to satisfy PWA install requirements
+  // without intercepting and slowing down Next.js RSC data fetching!
 });
