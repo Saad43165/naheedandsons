@@ -643,7 +643,7 @@ export default function AdminDashboard() {
             </form>
 
             <div className="mt-8 pt-6 border-t border-white/[0.04] text-center">
-              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-mono">Passcodes: naheed2026 / admin123</span>
+              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-mono flex justify-center items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>Secure Connection</span>
             </div>
           </div>
         </div>
