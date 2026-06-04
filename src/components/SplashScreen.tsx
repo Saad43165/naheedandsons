@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function SplashScreen() {
   const [loading, setLoading] = useState(true);
-  const [fadeLogo, setFadeLogo] = useState(false);
 
   useEffect(() => {
     // We want the splash screen to show until the data syncs,
@@ -27,8 +26,7 @@ export default function SplashScreen() {
         attempts++;
       }
       
-      setFadeLogo(true);
-      setTimeout(() => setLoading(false), 500); // fade out duration
+      setLoading(false);
     };
 
     // If document is already loaded and we have data in localStorage, we can proceed.
@@ -61,11 +59,7 @@ export default function SplashScreen() {
 
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ 
-              opacity: fadeLogo ? 0 : 1, 
-              y: fadeLogo ? -20 : 0,
-              scale: fadeLogo ? 0.95 : 1
-            }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="relative z-10 flex flex-col items-center"
           >
