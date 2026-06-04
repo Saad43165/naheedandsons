@@ -47,9 +47,9 @@ export default function Footer() {
               title="Naheed & Sons"
             >
               <img
-                src="/logo_square.png"
+                src="/ns-logo.png"
                 alt="Naheed & Sons"
-                className="w-9 h-9 rounded-lg object-cover border border-[#C8860A]/30"
+                className="w-9 h-9 rounded-lg object-contain bg-white border border-[#C8860A]/30"
               />
               <span className="font-display text-2xl font-bold tracking-tight text-white">
                 Naheed & <span className="text-[#C8860A]">Sons</span>

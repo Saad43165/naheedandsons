@@ -59,10 +59,11 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 z-10 flex items-center gap-2">
-            <img
-              src="/logo_square.png"
+            <motion.img
+              layoutId="main-logo"
+              src="/ns-logo.png"
               alt="Naheed & Sons"
-              className="w-9 h-9 rounded-lg object-cover border border-[#C8860A]/30 shadow-sm"
+              className="w-9 h-9 rounded-lg object-contain border border-[#C8860A]/30 shadow-sm bg-white"
             />
             <span
               className={`font-display text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
@@ -163,10 +164,11 @@ export default function Navbar() {
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <div className="flex items-center gap-2">
-                  <img
-                    src="/logo_square.png"
+                  <motion.img
+                    layoutId="main-logo-mobile"
+                    src="/ns-logo.png"
                     alt="Naheed & Sons"
-                    className="w-8 h-8 rounded-lg object-cover border border-[#C8860A]/30"
+                    className="w-8 h-8 rounded-lg object-contain border border-[#C8860A]/30 bg-white"
                   />
                   <span className="font-display text-lg font-bold text-[#1B3A5C]">
                     Naheed & <span className="text-[#C8860A]">Sons</span>

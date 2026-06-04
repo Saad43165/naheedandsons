@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import SplashScreen from "@/components/SplashScreen";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,8 +24,8 @@ export const metadata: Metadata = {
   keywords: ["construction company", "interior design", "exterior finishing", "Naheed & Sons", "building contractor"],
   manifest: "/manifest.json",
   icons: {
-    icon: "/logo_square.png",
-    apple: "/logo_square.png",
+    icon: "/ns-logo.png",
+    apple: "/ns-logo.png",
   },
   appleWebApp: {
     capable: true,
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} font-sans antialiased overflow-x-hidden`}
       >
+        <SplashScreen />
         {children}
       </body>
     </html>

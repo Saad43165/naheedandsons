@@ -614,8 +614,8 @@ export default function AdminDashboard() {
             {/* Top gold bar */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C8860A] to-[#e8a832]" />
             <div className="text-center mb-8">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 border border-[#C8860A]/40 shadow-lg">
-                <img src="/logo_square.png" alt="Naheed & Sons Logo" className="w-full h-full object-cover" />
+              <div className="w-16 h-16 rounded-2xl overflow-hidden mx-auto mb-4 border border-[#C8860A]/40 shadow-lg bg-white">
+                <img src="/ns-logo.png" alt="Naheed & Sons Logo" className="w-full h-full object-contain" />
               </div>
               <h1 className="font-display text-2xl font-bold text-white tracking-tight">Admin Gate</h1>
               <p className="text-gray-400 text-xs mt-2">Naheed & Sons Management System</p>
