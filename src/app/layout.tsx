@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import SplashScreen from "@/components/SplashScreen";
+import InstallPrompt from "@/components/InstallPrompt";
 import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({
@@ -52,6 +53,7 @@ export default function RootLayout({
         className={`${inter.variable} ${playfair.variable} font-sans antialiased overflow-x-hidden`}
       >
         <NextTopLoader color="#C8860A" showSpinner={false} />
+        <InstallPrompt />
         <SplashScreen />
         {children}
       </body>
