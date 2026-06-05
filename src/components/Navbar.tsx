@@ -219,10 +219,10 @@ export default function Navbar() {
                   Request a Free Quote
                 </Link>
                 <a
-                  href="tel:+923001234567"
+                  href="tel:+923346878500"
                   className="block w-full text-center border-2 border-[#1B3A5C] text-[#1B3A5C] font-semibold py-3 rounded-xl hover:bg-[#1B3A5C] hover:text-white transition-colors text-sm"
                 >
-                  +92 (300) 123-4567
+                  +92 334 6878500
                 </a>
               </div>
             </motion.div>

@@ -82,7 +82,7 @@ export default function ContactForm() {
               </div>
               <div>
                 <h4 className="text-[#1B3A5C] font-bold text-lg mb-1">Phone Number</h4>
-                <a href={`tel:${settings?.phone?.replace(/\D/g, "") ?? "+923001234567"}`} className="text-gray-600 hover:text-[#C8860A] transition-colors">{settings?.phone ?? "+92 (300) 123-4567"}</a>
+                <a href={`tel:${settings?.phone?.replace(/\D/g, "") ?? "+923346878500"}`} className="text-gray-600 hover:text-[#C8860A] transition-colors">{settings?.phone ?? "+92 334 6878500"}</a>
               </div>
             </div>
 

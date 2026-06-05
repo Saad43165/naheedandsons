@@ -61,11 +61,11 @@ export default function CtaSection() {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="tel:+923001234567"
+              href="tel:+923346878500"
               className="inline-flex items-center gap-3 border-2 border-white/30 hover:border-white text-white font-semibold px-9 py-4 rounded-xl transition-all duration-300 hover:bg-white/10 hover:-translate-y-0.5 text-base w-full sm:w-auto justify-center"
             >
               <Phone className="w-5 h-5 shrink-0" />
-              +92 (300) 123-4567
+              +92 334 6878500
             </a>
           </div>
         </motion.div>
