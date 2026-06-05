@@ -51,24 +51,22 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
             ? "bg-white/98 backdrop-blur-xl shadow-[0_2px_20px_rgba(0,0,0,0.08)] py-3"
             : "bg-transparent py-5"
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-6">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0 z-10 flex items-center gap-3">
-            <Logo 
-              layoutId="main-logo" 
+            <Logo
+              layoutId="main-logo"
               className="w-10 h-10 rounded-lg"
               fontSize="1.2rem"
             />
             <span
-              className={`font-display text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
-                isScrolled ? "text-[#1B3A5C]" : "text-white"
-              }`}
+              className={`font-display text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${isScrolled ? "text-[#1B3A5C]" : "text-white"
+                }`}
             >
               Naheed & <span className="text-[#C8860A]">Sons</span>
             </span>
@@ -82,15 +80,14 @@ export default function Navbar() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`relative px-3 py-2 rounded-md font-medium text-sm transition-colors duration-200 ${
-                    isScrolled
+                  className={`relative px-3 py-2 rounded-md font-medium text-sm transition-colors duration-200 ${isScrolled
                       ? isActive
                         ? "text-[#C8860A]"
                         : "text-gray-700 hover:text-[#C8860A]"
                       : isActive
                         ? "text-[#C8860A]"
                         : "text-white/90 hover:text-white"
-                  }`}
+                    }`}
                 >
                   {link.name}
                   {isActive && (
@@ -108,19 +105,17 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             <Link
               href="/contact"
-              className={`text-sm font-medium transition-colors duration-200 ${
-                isScrolled ? "text-gray-600 hover:text-[#1B3A5C]" : "text-white/80 hover:text-white"
-              }`}
+              className={`text-sm font-medium transition-colors duration-200 ${isScrolled ? "text-gray-600 hover:text-[#1B3A5C]" : "text-white/80 hover:text-white"
+                }`}
             >
               Contact
             </Link>
             <Link
               href="/quote"
-              className={`px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5 ${
-                isScrolled
+              className={`px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5 ${isScrolled
                   ? "bg-[#1B3A5C] text-white hover:bg-[#11263d] shadow-md hover:shadow-lg"
                   : "bg-[#C8860A] text-white hover:bg-[#a66d06] shadow-[0_4px_15px_rgba(200,134,10,0.4)]"
-              }`}
+                }`}
             >
               Get a Quote
             </Link>
@@ -128,9 +123,8 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className={`lg:hidden p-2 rounded-lg transition-colors z-10 ${
-              isScrolled ? "text-[#1B3A5C] hover:bg-gray-100" : "text-white hover:bg-white/10"
-            }`}
+            className={`lg:hidden p-2 rounded-lg transition-colors z-10 ${isScrolled ? "text-[#1B3A5C] hover:bg-gray-100" : "text-white hover:bg-white/10"
+              }`}
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -164,8 +158,8 @@ export default function Navbar() {
               {/* Drawer Header */}
               <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                  <Logo 
-                    layoutId="main-logo-mobile" 
+                  <Logo
+                    layoutId="main-logo-mobile"
                     className="w-8 h-8 rounded-md"
                     fontSize="1rem"
                   />
@@ -195,11 +189,10 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl mb-1 font-medium transition-colors ${
-                          isActive
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl mb-1 font-medium transition-colors ${isActive
                             ? "bg-[#C8860A]/10 text-[#C8860A]"
                             : "text-gray-700 hover:bg-gray-50 hover:text-[#1B3A5C]"
-                        }`}
+                          }`}
                       >
                         {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#C8860A] shrink-0" />}
                         {link.name}
