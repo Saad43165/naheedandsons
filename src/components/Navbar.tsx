@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Download } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "./Logo";
 
@@ -20,6 +20,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [canInstall, setCanInstall] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -45,6 +46,18 @@ export default function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
+
+  // Check if PWA install is available
+  useEffect(() => {
+    const checkInstall = () => {
+      if (typeof window !== "undefined" && (window as any).deferredPrompt) {
+        setCanInstall(true);
+      }
+    };
+    checkInstall();
+    const interval = setInterval(checkInstall, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const isHome = pathname === "/";
 
@@ -211,6 +224,19 @@ export default function Navbar() {
                 >
                   Request a Free Quote
                 </Link>
+                {canInstall && (
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      const prompt = (window as any).deferredPrompt;
+                      if (prompt) prompt.prompt();
+                    }}
+                    className="flex w-full items-center justify-center gap-2 border-2 border-[#C8860A] text-[#C8860A] font-bold py-3 rounded-xl hover:bg-[#C8860A] hover:text-white transition-colors"
+                  >
+                    <Download className="w-4 h-4" />
+                    Install App
+                  </button>
+                )}
                 <a
                   href="tel:+923346878500"
                   className="block w-full text-center border-2 border-[#1B3A5C] text-[#1B3A5C] font-semibold py-3 rounded-xl hover:bg-[#1B3A5C] hover:text-white transition-colors text-sm"
