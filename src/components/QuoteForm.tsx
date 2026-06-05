@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, ArrowRight, ArrowLeft } from "lucide-react";
-import { saveInquiry } from "@/utils/storage";
+import { saveInquiry, getServices, Service } from "@/utils/storage";
+import { useEffect } from "react";
 
 export default function QuoteForm() {
+  const [services, setServices] = useState<Service[]>([]);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    projectType: "Residential Construction",
+    projectType: "",
     area: "",
     budget: "PKR 50 Lakh - 1.5 Crore",
     timeline: "3 - 6 Months",
@@ -20,6 +22,27 @@ export default function QuoteForm() {
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const load = () => {
+      const loaded = getServices();
+      setServices(loaded);
+      if (loaded.length > 0) {
+        setFormData(prev => {
+          const isValidType = loaded.some(s => s.title === prev.projectType);
+          if (!prev.projectType || !isValidType) {
+            return { ...prev, projectType: loaded[0].title };
+          }
+          return prev;
+        });
+      }
+    };
+    load();
+    window.addEventListener("naheed_storage_synced", load);
+    return () => window.removeEventListener("naheed_storage_synced", load);
+  }, []);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const nextStep = () => {
     let errs: Record<string, string> = {};
@@ -143,11 +166,13 @@ export default function QuoteForm() {
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                       className="w-full bg-[#F5F5F5] border border-gray-200 rounded-md py-3 px-4 text-[#2D2D2D] focus:outline-none focus:border-[#C8860A] transition-all"
                     >
-                      <option>Residential Construction</option>
-                      <option>Commercial Construction</option>
-                      <option>Interior Design</option>
-                      <option>Exterior Finishing</option>
-                      <option>Renovation & Remodeling</option>
+                      {services.length > 0 ? (
+                        services.map((s) => (
+                          <option key={s.slug} value={s.title}>{s.title}</option>
+                        ))
+                      ) : (
+                        <option>Loading services...</option>
+                      )}
                     </select>
                   </div>
 

@@ -677,25 +677,31 @@ export function getServices(): Service[] {
   if (typeof window === "undefined") return INITIAL_SERVICES;
 
   // Background fetch & sync
-  supabase
-    .from("services")
-    .select("*")
-    .then(({ data, error }: { data: any; error: any }) => {
-      if (!error && data) {
-        const mapped = data.map((d: any) => ({
-          slug: d.slug,
-          title: d.title,
-          tagline: d.tagline,
-          desc: d.desc_text, // Map back to camelCase type properties
-          image: d.image,
-          iconName: d.icon_name,
-          features: d.features,
-          suitable: d.suitable
-        }));
-        localStorage.setItem(SERVICES_KEY, JSON.stringify(mapped));
-        notifySync(SERVICES_KEY);
-      }
-    });
+  if (shouldFetch(SERVICES_KEY)) {
+    supabase
+      .from("services")
+      .select("*")
+      .then(({ data, error }: { data: any; error: any }) => {
+        if (!error && data) {
+          const mapped = data.map((d: any) => ({
+            slug: d.slug,
+            title: d.title,
+            tagline: d.tagline,
+            desc: d.desc_text, // Map back to camelCase type properties
+            image: d.image,
+            iconName: d.icon_name,
+            features: d.features,
+            suitable: d.suitable
+          }));
+          const currentString = localStorage.getItem(SERVICES_KEY);
+          const newString = JSON.stringify(mapped);
+          if (currentString !== newString) {
+            localStorage.setItem(SERVICES_KEY, newString);
+            notifySync(SERVICES_KEY);
+          }
+        }
+      });
+  }
 
   const stored = localStorage.getItem(SERVICES_KEY);
   if (!stored) {
@@ -719,6 +725,7 @@ export function saveService(service: Service): Service[] {
     current.push(service);
   }
   localStorage.setItem(SERVICES_KEY, JSON.stringify(current));
+  notifySync(SERVICES_KEY);
 
   // Sync to Supabase
   supabase
@@ -745,6 +752,7 @@ export function deleteService(slug: string): Service[] {
   const current = getServices();
   const filtered = current.filter((s) => s.slug !== slug);
   localStorage.setItem(SERVICES_KEY, JSON.stringify(filtered));
+  notifySync(SERVICES_KEY);
 
   // Sync to Supabase
   supabase

@@ -1,8 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { getCompanySettings, CompanySettings } from "@/utils/storage";
 
 export default function ProjectsHero() {
+  const [settings, setSettings] = useState<CompanySettings | null>(null);
+
+  useEffect(() => {
+    const load = () => setSettings(getCompanySettings());
+    load();
+    window.addEventListener("naheed_storage_synced", load);
+    return () => window.removeEventListener("naheed_storage_synced", load);
+  }, []);
+
   return (
     <section className="relative pt-32 pb-20 bg-[#0d1f35] overflow-hidden">
       <div
@@ -38,10 +49,10 @@ export default function ProjectsHero() {
           {/* Stats row */}
           <div className="flex flex-wrap justify-center gap-8 mt-10">
             {[
-              { v: "400+", l: "Projects Completed" },
-              { v: "25+", l: "Years in Business" },
-              { v: "98%", l: "On-Time Delivery" },
-              { v: "100%", l: "Client Satisfaction" },
+              { v: settings?.projectsCompleted ?? "400+", l: "Projects Completed" },
+              { v: settings?.yearsExperience ?? "25+", l: "Years in Business" },
+              { v: settings?.completedOnTime ?? "98%", l: "On-Time Delivery" },
+              { v: settings?.clientSatisfaction ?? "100%", l: "Client Satisfaction" },
             ].map((stat) => (
               <div key={stat.l} className="text-center">
                 <div className="text-3xl font-display font-bold text-[#C8860A]">{stat.v}</div>
