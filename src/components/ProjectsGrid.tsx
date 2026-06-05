@@ -30,7 +30,7 @@ export default function ProjectsGrid() {
         p.title.toLowerCase().includes(q) ||
         p.location.toLowerCase().includes(q) ||
         p.category.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q));
+        (p.tags || []).some((t) => t.toLowerCase().includes(q));
       return matchCat && matchSearch;
     });
   }, [projects, selectedCategory, searchQuery]);
@@ -190,7 +190,7 @@ export default function ProjectsGrid() {
 
                         {/* Tags */}
                         <div className="absolute bottom-3 left-4 right-4 z-10 flex flex-wrap gap-1.5">
-                          {project.tags.slice(0, 2).map((tag) => (
+                          {(project.tags || []).slice(0, 2).map((tag) => (
                             <span key={tag} className="text-[9px] font-semibold uppercase tracking-wider text-white/70 border border-white/25 py-0.5 px-2 rounded-full">
                               {tag}
                             </span>
