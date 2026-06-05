@@ -11,7 +11,7 @@ export default function InstallPrompt() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     
-    if (localStorage.getItem("naheed_dismissed_install")) {
+    if (localStorage.getItem("naheed_dismissed_install") || sessionStorage.getItem("naheed_install_prompt_seen")) {
       return;
     }
 
@@ -20,6 +20,9 @@ export default function InstallPrompt() {
       e.preventDefault();
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e);
+      (window as any).deferredPrompt = e;
+      // Record that we showed it this session so we don't spam them on navigation
+      sessionStorage.setItem("naheed_install_prompt_seen", "true");
       // Show the custom popup after a short delay
       setTimeout(() => setShowPrompt(true), 2000);
     };
@@ -39,6 +42,7 @@ export default function InstallPrompt() {
     const { outcome } = await deferredPrompt.userChoice;
     if (outcome === "accepted") {
       setShowPrompt(false);
+      localStorage.setItem("naheed_dismissed_install", "true");
     }
     setDeferredPrompt(null);
   };

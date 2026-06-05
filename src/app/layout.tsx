@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   keywords: ["construction company", "interior design", "exterior finishing", "Naheed & Sons", "building contractor"],
   manifest: "/manifest.json",
   icons: {
-    icon: "/ns-logo.png",
-    apple: "/ns-logo.png",
+    icon: "/ns-logo.svg",
+    apple: "/ns-logo.svg",
   },
   appleWebApp: {
     capable: true,
